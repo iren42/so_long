@@ -12,18 +12,27 @@
 
 #include "so_long.h"
 
-int	ft_map_has_wall_at(t_data *data, float x, float y)
+int	ft_map_has_wall_at(t_data *data, int x, int y)
 {
-	int	map_grid_index_x;
-	int	map_grid_index_y;
-
-	if (x < 0 || x > data->img.tmap->cols * TILE_SIZE
-		|| y < 0 || y > data->img.tmap->rows * TILE_SIZE)
+	if (x < 0 || x > data->img.tmap->rows || y < 0 || y > data->img.tmap->cols)
 		return (1);
-	map_grid_index_x = floor(x / TILE_SIZE);
-	map_grid_index_y = floor(y / TILE_SIZE);
-	if (map_grid_index_x >= data->img.tmap->cols
-		|| map_grid_index_y >= data->img.tmap->rows)
-		return (1);
-	return (data->img.tmap->map[map_grid_index_y][map_grid_index_x] != '0');
+	else if (data->img.tmap->map[x][y] == 'C')
+	{
+		data->img.tmap->map[x][y] = '0';
+		data->img.tmap->comp.nb_collec--;
+	}
+	else if (data->img.tmap->map[x][y] == 'E')
+	{
+		if (data->img.tmap->comp.nb_collec == 0)
+		{
+			ft_putendl_fd("Success. All collectibles have been collected.", 1);
+			mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+			data->win_ptr = NULL;
+		}
+		else
+			ft_msg(data->img.tmap->comp.nb_collec, "collectibles left.", 1);
+	}
+	if (data->img.tmap->map[x][y] != '1')
+		ft_msg(++(data->img.player.nb_mvmt), "movements in total\n", 1);
+	return (data->img.tmap->map[x][y] == '1');
 }

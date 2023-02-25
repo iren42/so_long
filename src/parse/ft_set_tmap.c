@@ -12,9 +12,9 @@
 
 #include "so_long.h"
 
-static int is_map_content(char *line)
+static int	is_map_content(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (line != NULL)
@@ -35,11 +35,10 @@ static int is_map_content(char *line)
 	return (0);
 }
 
-static int convert_maplst_to_char(t_list *l, t_map *tmap)
+static int	convert_maplst_to_char(t_list *l, t_map *tmap)
 {
-	int i;
+	int	i;
 
-	//printf("rows = %d, cols = %d\n", tmap->rows, tmap->cols);
 	if (tmap->rows < 3 || tmap->cols < 3)
 		return (FAILURE);
 	tmap->map = malloc(sizeof(char *) * (tmap->rows + 1));
@@ -64,22 +63,18 @@ static int convert_maplst_to_char(t_list *l, t_map *tmap)
 	return (SUCCESS);
 }
 
-static int check_all_parsed(t_map *tmap, int has_map_begun)
+static int	check_all_parsed(t_map *tmap, int has_map_begun)
 {
-	/*	if (!tmap->texture[no] || !tmap->texture[so] || !tmap->texture[we]
-			|| !tmap->texture[ea] || !has_map_begun || tmap->map == 0
-			|| tmap->floor == -1 || tmap->ceiling == -1)
-			tmap->error = -1;*/
 	if (!has_map_begun)
 	{
-		ft_putstr_fd("Error\nno map content.\n", 2);
+		ft_putstr_fd("Error\nNo map content.\n", 2);
 		free(tmap->map);
 		tmap->map = 0;
 	}
 	return (tmap->error);
 }
 
-static void loop(t_var_set_tmap *t)
+static void	loop(t_var_set_tmap *t)
 {
 	t->has_map_begun = is_map_content(t->line);
 	while (t->has_map_begun && t->ret > 0)
@@ -90,21 +85,11 @@ static void loop(t_var_set_tmap *t)
 			t->tmap->cols = ft_strlen(t->line);
 		t->ret = get_next_line(t->fd, &t->line);
 	}
-	/*	if (ft_strchr("NSWEFC\n", t->line[0]) != NULL)
-		{
-			ft_parse_texture(t->line, t->tmap);
-			ft_parse_color(t->line, t->tmap);
-		}
-		else
-		{
-			ft_putstr_fd("Error\nForbidden character in file descriptor.\n", 2);
-			t->tmap->error = -1;
-		}*/
 }
 
-int ft_set_tmap(int fd, t_map *tmap)
+int	ft_set_tmap(int fd, t_map *tmap)
 {
-	t_var_set_tmap t;
+	t_var_set_tmap	t;
 
 	t.line = 0;
 	t.lst = 0;
@@ -119,7 +104,6 @@ int ft_set_tmap(int fd, t_map *tmap)
 		t.ret = get_next_line(t.fd, &t.line);
 	}
 	free(t.line);
-//	affiche_list(t.lst);
 	if (tmap->error == 0)
 		if (convert_maplst_to_char(t.lst, tmap) == -1)
 			ft_putstr_fd("Error\nNo tmap. Error found in map content.\n", 2);

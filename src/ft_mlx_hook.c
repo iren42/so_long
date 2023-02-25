@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 15:31:41 by iren              #+#    #+#             */
-/*   Updated: 2021/08/15 05:31:27 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/25 18:06:12 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,15 @@
 
 static void	update_player_values(t_data *data, t_player *p)
 {
-	float	new_px;
-	float	new_py;
+	int	new_px;
+	int	new_py;
 
-	p->rotation_angle += p->turn_dir * p->turn_speed;
-	if (p->turn_dir != 0 || p->walk_dir != 0)
-	{
-		new_px = p->x + cos(p->rotation_angle) * (p->walk_dir * p->walk_speed);
-		new_py = p->y + sin(p->rotation_angle) * (p->walk_dir * p->walk_speed);
-	}
-	else
-	{
-		new_px = p->x + cos(p->rotation_angle + (PI / 2)
-				* p->cam_dir) * p->walk_speed;
-		new_py = p->y + sin(p->rotation_angle + (PI / 2)
-				* p->cam_dir) * p->walk_speed;
-	}
+	new_px = p->x;
+	new_py = p->y;
+	if (p->walk_x != 0)
+		new_px = p->x + (p->walk_x * 1);
+	else if (p->walk_y != 0)
+		new_py = p->y + (p->walk_y * 1);
 	if (!ft_map_has_wall_at(data, new_px, new_py))
 	{
 		p->x = new_px;
@@ -41,19 +34,13 @@ static void	update_player_values(t_data *data, t_player *p)
 
 static int	handle_keyrelease(int keysym, t_data *data)
 {
-	if (keysym == XK_w || keysym == XK_s
-		|| keysym == XK_W || keysym == XK_S)
+	if (keysym == XK_w || keysym == XK_s || keysym == XK_W || keysym == XK_S)
 	{
-		data->img.player.walk_dir = 0;
+		data->img.player.walk_x = 0;
 	}
-	else if (keysym == XK_Right || keysym == XK_Left)
+	else
 	{
-		data->img.player.turn_dir = 0;
-	}
-	else if (keysym == XK_a || keysym == XK_d
-		|| keysym == XK_A || keysym == XK_D)
-	{
-		data->img.player.cam_dir = 0;
+		data->img.player.walk_y = 0;
 	}
 	return (0);
 }
@@ -66,21 +53,16 @@ static int	handle_keypress(int key, t_data *data)
 		data->win_ptr = NULL;
 	}
 	else if (key == XK_a || key == XK_d || key == XK_w || key == XK_s
-		|| key == XK_A || key == XK_D || key == XK_W || key == XK_S
-		|| key == XK_Right || key == XK_Left)
+		|| key == XK_A || key == XK_D || key == XK_W || key == XK_S)
 	{
 		if (key == XK_a)
-			data->img.player.cam_dir = -1;
+			data->img.player.walk_y = -1;
 		else if (key == XK_d)
-			data->img.player.cam_dir = +1;
+			data->img.player.walk_y = 1;
 		else if (key == XK_w)
-			data->img.player.walk_dir = +1;
-		else if (key == XK_s)
-			data->img.player.walk_dir = -1;
-		else if (key == XK_Right)
-			data->img.player.turn_dir = +1;
+			data->img.player.walk_x = -1;
 		else
-			data->img.player.turn_dir = -1;
+			data->img.player.walk_x = 1;
 		update_player_values(data, &(data->img.player));
 	}
 	return (0);

@@ -6,7 +6,7 @@
 #    By: iren <iren@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/15 17:41:07 by iren              #+#    #+#              #
-#    Updated: 2023/02/23 15:51:09 by iren             ###   ########.fr        #
+#    Updated: 2023/02/25 18:28:58 by iren             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ HEADER1	= include/get_next_line.h
 
 DIR_SOURCES	= src/
 
-DIR_BONUS	=	src_bonus/
+DIR_OBJ	= obj/
 
 DIR_PARSE = parse/
 
@@ -33,36 +33,21 @@ DIR_3DMAP	= 3dmap/
 SOURCES_PARSE	=	ft_parse_all.c \
 					get_next_line.c \
 					get_next_line_utils.c \
-					ft_parse_nb.c \
 					ft_free_previously_malloced.c \
 					ft_set_tmap.c \
-					ft_skip_spaces.c \
 					ft_isspace.c \
-					ft_find_proh_zero.c \
 					ft_is_player_char.c \
 					ft_display_things.c \
 					ft_copy_mapchar.c \
 					ft_free_mapchar.c  \
 					ft_walls_are_good.c \
-					ft_map_has_necessary_components.c 
-	#				ft_rotate_mapchar.c
-		#			ft_mirror.c 
-				#	ft_parse_texture.c \
-				#	ft_parse_color.c 
+					ft_map_has_necessary_components.c \
+					ft_has_valid_path.c 
 
 SOURCES_2DMAP	=	ft_render_rect.c \
-					ft_render_line.c \
-					ft_render_rays.c \
-					ft_map_has_wall_at.c \
-					ft_cast_all_rays.c \
-					ft_calculate_step.c \
-					ft_calculate_intercept.c \
-					ft_find_wall_hit_xy.c \
-					ft_fill_ray_data.c 
+					ft_map_has_wall_at.c 
 
-SOURCES_3DMAP	=	ft_generate_walls_projection.c \
-					ft_get_pix_color.c \
-					ft_walls_projection.c 
+SOURCES_3DMAP	=	ft_get_pix_color.c 
 
 SOURCES		=	main.c \
 				ft_init_tmap.c \
@@ -73,6 +58,7 @@ SOURCES		=	main.c \
 				ft_mlx_hook.c \
 				ft_img_pix_put.c \
 				ft_refresh_img.c \
+				ft_msg.c \
 				$(addprefix $(DIR_2DMAP), $(SOURCES_2DMAP)) \
 				$(addprefix $(DIR_3DMAP), $(SOURCES_3DMAP)) \
 				$(addprefix $(DIR_PARSE), $(SOURCES_PARSE))
@@ -81,14 +67,9 @@ SRCS	=	$(addprefix $(DIR_SOURCES), $(SOURCES))
 
 OBJS	= $(SRCS:.c=.o)
 
-SRCS_BONUS	=	$(addprefix $(DIR_BONUS), $(SOURCES))
-
-OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
-
 CC		= gcc
 
-CFLAGS	=  
-#-Wall -Wextra -Werror 
+CFLAGS	=  -Wall -Wextra -Werror 
 
 RM		= rm -f
 
@@ -101,24 +82,17 @@ $(NAME) : $(OBJS) $(HEADER) $(MLX) $(LIBFT)
 		make -C $(MLX)
 		make -C $(LIBFT)
 		make bonus -C $(LIBFT)
-		$(CC) -o $@ $(OBJS) -Llibft -lft -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm
-
-bonus	: $(OBJS_BONUS) $(HEADER) $(MLX) $(LIBFT)
-		make -C $(MLX)
-		make -C $(LIBFT)
-		make bonus -C $(LIBFT)
-		$(CC) -o cub3D $(OBJS_BONUS) -Llibft -lft -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm
- 
+		$(CC) $(CFLAGS) -o $@ $(OBJS) -Llibft -lft -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm
 
 norm	:
-		norminette $(SRCS) $(SRCS_BONUS)
-		norminette -R CheckDefine $(HEADER)
-		norminette -R CheckDefine $(HEADER1)
+		norminette $(SRCS)
+		norminette $(HEADER)
+		norminette $(HEADER1)
 		make norm -C $(LIBFT)
 
 clean	:
-		$(RM) $(OBJS) $(OBJS_BONUS)
-		$(RM) $(OBJS:.o=.d) $(OBJS_BONUS:.o=.d)
+		$(RM) $(OBJS)
+		$(RM) $(OBJS:.o=.d)
 		make clean -C $(LIBFT)
 		make clean -C $(MLX)
 

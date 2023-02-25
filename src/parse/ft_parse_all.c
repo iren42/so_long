@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 19:18:44 by iren              #+#    #+#             */
-/*   Updated: 2021/08/15 07:24:25 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/25 17:45:58 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,23 @@ static int	ft_is_filename_valid(char *name)
 	return (-1);
 }
 
-// TODO: restrict map size and code a garbage collector
 static int	ft_is_map_valid(t_map *map)
 {
 	if (!ft_walls_are_good(map))
 	{
-		ft_putstr_fd("Error\nMap walls are not closed or rectangular.\n", 2);
-		return (0);
+		ft_putstr_fd("Error\nMap walls are not good.\n", 2);
+		return (-1);
 	}
 	if (!ft_map_has_necessary_components(map))
 	{
-		ft_putstr_fd("Error\nMap does not have the mandatory number of components\n", 2);
-		return (0);
+		ft_putstr_fd("Error\nNumber of components.\n", 2);
+		return (-1);
 	}
-
+	if (!ft_has_valid_path(map))
+	{
+		ft_putstr_fd("Error\nMap does not have a valid path\n", 2);
+		return (-1);
+	}
 	return (1);
 }
 
