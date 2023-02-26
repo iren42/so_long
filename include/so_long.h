@@ -97,7 +97,6 @@ typedef struct s_var_set_tmap
 	t_map	*tmap;
 	int		ret;
 	int		fd;
-	int		has_map_begun;
 }	t_var_set_tmap;
 
 typedef struct s_img {

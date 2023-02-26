@@ -6,7 +6,7 @@
 /*   By: iren <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:49:46 by iren              #+#    #+#             */
-/*   Updated: 2023/02/25 21:24:48 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/26 05:58:35 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@ static int	ft_walls_are_closed(t_map *tmap, char **map)
 	int	i;
 
 	i = 0;
-	while (i < tmap->rows)
+	printf("cols %d rows %d\n", tmap->cols, tmap->rows);
+	while (i < tmap->cols)
 	{
-		if (map[i][0] == '0' || map[i][tmap->cols - 1] == '0')
+		if (map[0][i] == '0' || map[tmap->rows - 1][i] == '0')
 			return (0);
 		i++;
 	}
 	i = 0;
-	while (i < tmap->cols)
+	while (i < tmap->rows)
 	{
-		if (map[0][i] == '0' || map[tmap->rows - 1][i] == '0')
+		if (map[i][0] == '0' || map[i][tmap->cols - 1] == '0')
 			return (0);
 		i++;
 	}
@@ -60,12 +61,10 @@ int	ft_walls_are_good(t_map *tmap)
 {
 	if (ft_is_map_nrect_big(tmap, tmap->map))
 	{
-		ft_msg(-1, "Map is not rectangular or is too big.\n", 2);
 		return (0);
 	}
 	if (!ft_walls_are_closed(tmap, tmap->map))
 	{
-		ft_msg(-1, "In ft_walls_are_good.c: Map walls are not closed.\n", 2);
 		return (0);
 	}
 	return (1);

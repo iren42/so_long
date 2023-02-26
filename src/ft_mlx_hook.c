@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 15:31:41 by iren              #+#    #+#             */
-/*   Updated: 2023/02/25 18:06:12 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/26 05:59:19 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static int	handle_keyrelease(int keysym, t_data *data)
 {
 	if (keysym == XK_w || keysym == XK_s || keysym == XK_W || keysym == XK_S)
 	{
-		data->img.player.walk_x = 0;
+		data->img.player.walk_y = 0;
 	}
 	else
 	{
-		data->img.player.walk_y = 0;
+		data->img.player.walk_x = 0;
 	}
 	return (0);
 }
@@ -56,13 +56,13 @@ static int	handle_keypress(int key, t_data *data)
 		|| key == XK_A || key == XK_D || key == XK_W || key == XK_S)
 	{
 		if (key == XK_a)
-			data->img.player.walk_y = -1;
-		else if (key == XK_d)
-			data->img.player.walk_y = 1;
-		else if (key == XK_w)
 			data->img.player.walk_x = -1;
-		else
+		else if (key == XK_d)
 			data->img.player.walk_x = 1;
+		else if (key == XK_w)
+			data->img.player.walk_y = -1;
+		else
+			data->img.player.walk_y = 1;
 		update_player_values(data, &(data->img.player));
 	}
 	return (0);

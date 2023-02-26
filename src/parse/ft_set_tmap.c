@@ -45,6 +45,7 @@ static int	convert_maplst_to_char(t_list *l, t_map *tmap)
 	if (tmap->map == NULL)
 		return (FAILURE);
 	i = 0;
+	printf("convert rows %d cols %d\n", tmap->rows, tmap->cols);
 	while (l)
 	{
 		tmap->map[i] = malloc(sizeof(char) * (tmap->cols + 1));
@@ -60,30 +61,24 @@ static int	convert_maplst_to_char(t_list *l, t_map *tmap)
 		i++;
 	}
 	tmap->map[i] = 0;
+	tmap->error = 0;
 	return (SUCCESS);
-}
-
-static int	check_all_parsed(t_map *tmap, int has_map_begun)
-{
-	if (!has_map_begun)
-	{
-		ft_putstr_fd("Error\nNo map content.\n", 2);
-		free(tmap->map);
-		tmap->map = 0;
-	}
-	return (tmap->error);
 }
 
 static void	loop(t_var_set_tmap *t)
 {
-	t->has_map_begun = is_map_content(t->line);
-	while (t->has_map_begun && t->ret > 0)
+	while (t->ret > 0)
 	{
 		ft_lstadd_back(&t->lst, ft_lstnew(t->line));
 		t->tmap->rows++;
 		if (ft_strlen(t->line) > (unsigned int)t->tmap->cols)
 			t->tmap->cols = ft_strlen(t->line);
 		t->ret = get_next_line(t->fd, &t->line);
+	}
+	if (t->ret == 0)
+	{
+		ft_lstadd_back(&t->lst, ft_lstnew(t->line));
+		t->tmap->rows++;
 	}
 }
 
@@ -93,20 +88,18 @@ int	ft_set_tmap(int fd, t_map *tmap)
 
 	t.line = 0;
 	t.lst = 0;
-	t.has_map_begun = 0;
 	t.ret = get_next_line(fd, &t.line);
 	t.fd = fd;
 	t.tmap = tmap;
-	while (t.ret > 0)
+	if (t.ret > 0)
 	{
 		loop(&t);
-		free(t.line);
-		t.ret = get_next_line(t.fd, &t.line);
 	}
-	free(t.line);
-	if (tmap->error == 0)
-		if (convert_maplst_to_char(t.lst, tmap) == -1)
-			ft_putstr_fd("Error\nNo tmap. Error found in map content.\n", 2);
+	affiche_list(t.lst);
+//	if (tmap->rows != tmap->cols)
+		//free(t.line);
+	if (convert_maplst_to_char(t.lst, tmap) == FAILURE)
+		ft_putstr_fd("Error\nNo tmap. Error found in map content.\n", 2);
 	ft_lstclear(&t.lst, &free);
-	return (check_all_parsed(tmap, t.has_map_begun));
+	return (tmap->error);
 }

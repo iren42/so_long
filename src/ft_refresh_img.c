@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 23:10:16 by iren              #+#    #+#             */
-/*   Updated: 2023/02/25 18:16:11 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/26 06:02:59 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static int	render_player(t_img *img, t_player p, t_img t)
 	float	tx;
 	float	ty;
 
-	n = p.x * TILE_SIZE;
+	n = p.y * TILE_SIZE;
 	if (img != 0)
 	{
-		while (n < (p.x + 1) * TILE_SIZE)
+		while (n < (p.y + 1) * TILE_SIZE)
 		{
-			m = p.y * TILE_SIZE;
-			while (m < (p.y + 1) * TILE_SIZE)
+			m = p.x * TILE_SIZE;
+			while (m < (p.x + 1) * TILE_SIZE)
 			{
 				tx = ((float)m) / TILE_SIZE * t.hei;
 				ty = ((float)n) / TILE_SIZE * t.wid;

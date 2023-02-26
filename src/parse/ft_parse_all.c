@@ -26,10 +26,10 @@ static int	ft_is_filename_valid(char *name)
 		if (str != NULL)
 		{
 			if (ft_strncmp(str, ".ber", 5) == 0)
-				return (1);
+				return (SUCCESS);
 		}
 	}
-	return (-1);
+	return (FAILURE);
 }
 
 static int	ft_is_map_valid(t_map *map)
@@ -37,17 +37,17 @@ static int	ft_is_map_valid(t_map *map)
 	if (!ft_walls_are_good(map))
 	{
 		ft_putstr_fd("Error\nMap walls are not good.\n", 2);
-		return (-1);
+		return (FAILURE);
 	}
 	if (!ft_map_has_necessary_components(map))
 	{
 		ft_putstr_fd("Error\nNumber of components.\n", 2);
-		return (-1);
+		return (FAILURE);
 	}
 	if (!ft_has_valid_path(map))
 	{
 		ft_putstr_fd("Error\nMap does not have a valid path\n", 2);
-		return (-1);
+		return (FAILURE);
 	}
 	return (1);
 }
@@ -58,17 +58,17 @@ static int	ft_open_close_fd(char *name, int *fd, t_map *map)
 	if (*fd < 0)
 	{
 		ft_putstr_fd("Error\nFile could not be opened.\n", 2);
-		return (-1);
+		return (FAILURE);
 	}
-	if (ft_set_tmap(*fd, map) == -1)
+	if (ft_set_tmap(*fd, map) != 0)
 	{
 		ft_putstr_fd("Error\nIn ft_parse_all.c: ft_set_tmap failed.\n", 2);
-		return (-1);
+		return (FAILURE);
 	}
 	if (close(*fd) < 0)
 	{
 		ft_putstr_fd("Error\nFile could not close.\n", 2);
-		return (-1);
+		return (FAILURE);
 	}
 	return (1);
 }
@@ -78,17 +78,14 @@ int	ft_parse_all(char *name, t_map *tmap)
 	int	fd;
 
 	fd = 0;
-	if (ft_is_filename_valid(name) == -1)
+	if (ft_is_filename_valid(name) == FAILURE)
 	{
 		ft_putstr_fd("Error\nFilename invalid.\n", 2);
 		return (FAILURE);
 	}
-	if (ft_open_close_fd(name, &fd, tmap) == -1)
+	if (ft_open_close_fd(name, &fd, tmap) == FAILURE)
 		return (FAILURE);
-	if (ft_is_map_valid(tmap) == -1)
-	{
-		ft_putstr_fd("Error\nMap is not valid.\n", 2);
+	if (ft_is_map_valid(tmap) == FAILURE)
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }

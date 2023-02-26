@@ -35,7 +35,7 @@ int	ft_init_tmap(t_map *tmap)
 	int	i;
 
 	i = -1;
-	tmap->error = 0;
+	tmap->error = 1;
 	tmap->texture = malloc(sizeof(char *) * 5);
 	if (tmap->texture != NULL)
 	{
