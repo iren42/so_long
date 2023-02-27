@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 19:14:08 by iren              #+#    #+#             */
-/*   Updated: 2023/02/25 18:27:52 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/27 23:08:49 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
-# include <mlx.h>
+# include "mlx.h"
 # include "get_next_line.h"
 # include "libft.h"
 

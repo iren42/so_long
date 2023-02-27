@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 00:22:45 by iren              #+#    #+#             */
-/*   Updated: 2021/08/15 08:20:23 by iren             ###   ########.fr       */
+/*   Updated: 2023/02/27 20:21:42 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int	convert_maplst_to_char(t_list *l, t_map *tmap)
 	if (tmap->map == NULL)
 		return (FAILURE);
 	i = 0;
-	printf("convert rows %d cols %d\n", tmap->rows, tmap->cols);
 	while (l)
 	{
 		tmap->map[i] = malloc(sizeof(char) * (tmap->cols + 1));
@@ -75,11 +74,13 @@ static void	loop(t_var_set_tmap *t)
 			t->tmap->cols = ft_strlen(t->line);
 		t->ret = get_next_line(t->fd, &t->line);
 	}
-	if (t->ret == 0)
+	if (t->ret == 0 && ft_strlen(t->line))
 	{
 		ft_lstadd_back(&t->lst, ft_lstnew(t->line));
 		t->tmap->rows++;
 	}
+	else
+		free(t->line);
 }
 
 int	ft_set_tmap(int fd, t_map *tmap)
@@ -92,12 +93,9 @@ int	ft_set_tmap(int fd, t_map *tmap)
 	t.fd = fd;
 	t.tmap = tmap;
 	if (t.ret > 0)
-	{
 		loop(&t);
-	}
-	affiche_list(t.lst);
-//	if (tmap->rows != tmap->cols)
-		//free(t.line);
+	else
+		free(t.line);
 	if (convert_maplst_to_char(t.lst, tmap) == FAILURE)
 		ft_putstr_fd("Error\nNo tmap. Error found in map content.\n", 2);
 	ft_lstclear(&t.lst, &free);

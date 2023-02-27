@@ -6,29 +6,24 @@
 #    By: iren <iren@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/15 17:41:07 by iren              #+#    #+#              #
-#    Updated: 2023/02/27 23:06:11 by iren             ###   ########.fr        #
+#    Updated: 2023/02/27 23:04:10 by iren             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= so_long
-
 LIBFT	= libft
-
 MLX		= mlx_linux
 
-HEADER	= include/so_long.h
+HEADER	= so_long.h
+HEADER1	= get_next_line.h
+HEADER2	= libft.h
 
-HEADER1	= include/get_next_line.h
-
+DIR_HEADER = include/
 DIR_SOURCES	= src/
-
-DIR_OBJ	= obj/
-
 DIR_PARSE = parse/
-
 DIR_2DMAP = 2dmap/
-
 DIR_3DMAP	= 3dmap/
+DIR_OBJ	= obj/
 
 SOURCES_PARSE	=	ft_parse_all.c \
 					get_next_line.c \
@@ -63,7 +58,11 @@ SOURCES		=	main.c \
 
 SRCS	=	$(addprefix $(DIR_SOURCES), $(SOURCES))
 
-OBJS	= $(SRCS:.c=.o)
+OBJS    = $(addprefix $(DIR_OBJ), $(SRCS:.c=.o))
+
+HEAD    = $(addprefix $(DIR_HEADER), $(HEADER)) \
+		$(addprefix $(DIR_HEADER), $(HEADER1)) \
+		$(addprefix $(DIR_HEADER), $(HEADER2))
 
 CC		= gcc
 
@@ -73,23 +72,31 @@ RM		= rm -f
 
 all		: $(NAME)
 
-%.o		: %.c $(HEADER)
-		$(CC) $(CFLAGS) -Iinclude -Imlx_linux -g -c $< -o $@
+$(DIR_OBJ)%.o	: %.c $(HEAD)
+			@mkdir -p $(DIR_OBJ)
+			@mkdir -p $(DIR_OBJ)$(DIR_SOURCES)
+			@mkdir -p $(DIR_OBJ)$(DIR_SOURCES)$(DIR_3DMAP)
+			@mkdir -p $(DIR_OBJ)$(DIR_SOURCES)$(DIR_PARSE)
+			@mkdir -p $(DIR_OBJ)$(DIR_SOURCES)$(DIR_2DMAP)
+			$(CC) $(CFLAGS) -I$(DIR_HEADER) -I/usr/include -I$(MLX) -O3 -c $< -o $@ 
+			#-L$(libft) -lft -L$(MLX) -l$(MLX) -I$(MLX) -lXext -lX11 -lm
 
-$(NAME) : $(OBJS) $(HEADER) $(MLX) $(LIBFT)
+
+
+$(NAME) : $(OBJS) $(HEAD) $(MLX) $(LIBFT)
 		make -C $(MLX)
 		make -C $(LIBFT)
-		$(CC) $(CFLAGS) -o $@ $(OBJS) -Llibft -lft -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm
+		$(CC)  -o $@ $(OBJS) -L$(libft) -lft -L$(MLX) -lmlx_Linux -I$(MLX) -lXext -lX11 -lm
 
 norm	:
 		norminette $(SRCS)
 		norminette $(HEADER)
 		norminette $(HEADER1)
+		norminette $(HEADER2)
 		make norm -C $(LIBFT)
 
 clean	:
-		$(RM) $(OBJS)
-		$(RM) $(OBJS:.o=.d)
+		rm -rf $(DIR_OBJ)
 		make clean -C $(LIBFT)
 		make clean -C $(MLX)
 
@@ -99,6 +106,5 @@ fclean	: clean
 
 re		: fclean all
 
--include $(OBJS:.o=.d)
 
 .PHONY:	all clean fclean re
