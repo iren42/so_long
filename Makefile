@@ -6,7 +6,7 @@
 #    By: iren <iren@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/15 17:41:07 by iren              #+#    #+#              #
-#    Updated: 2023/02/27 23:06:11 by iren             ###   ########.fr        #
+#    Updated: 2023/03/10 20:33:39 by iren             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,12 @@ SOURCES_PARSE	=	ft_parse_all.c \
 					ft_free_previously_malloced.c \
 					ft_set_tmap.c \
 					ft_is_player_char.c \
-					ft_display_things.c \
 					ft_copy_mapchar.c \
 					ft_free_mapchar.c  \
 					ft_walls_are_good.c \
 					ft_map_has_necessary_components.c \
 					ft_has_valid_path.c 
+			#		ft_display_things.c
 
 SOURCES_2DMAP	=	ft_map_has_wall_at.c 
 
@@ -51,6 +51,7 @@ SOURCES		=	main.c \
 				ft_init_tmap.c \
 				ft_free_tmap.c \
 				ft_mlx.c \
+				ft_clear_mlx.c \
 				ft_import_xpm_file.c \
 				ft_close.c \
 				ft_mlx_hook.c \

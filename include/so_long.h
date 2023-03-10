@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 19:14:08 by iren              #+#    #+#             */
-/*   Updated: 2023/02/27 23:08:49 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/10 20:37:42 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *s);
 
+//////// ENUM
 enum e_tex{wall, ground, collec, map_exit, player};
 
-//////// STRUCT
+//////// STRUCT. Go to line 124 to skip
 typedef struct s_var_spread_b
 {
 	int	rows;
@@ -131,6 +132,7 @@ void	ft_free_tmap(t_map *map);
 int		ft_isspace(char c);
 int		ft_is_player_char(char c);
 
+//////// IN src/
 int		ft_mlx(t_map *map);
 void	ft_img_pix_put(t_img *img, int x, int y, int color);
 int		ft_close(t_data *data);
@@ -142,12 +144,10 @@ char	**ft_mirror(char **map, int rows, int cols);
 int		ft_set_tmap(int fd, t_map *map);
 int		ft_is_map_closed(t_map *map, int px, int py);
 void	ft_msg(int nb, char *s, int fd);
+void	ft_clear_mlx(t_data *d);
 
 //////// MLX 2D MAP FUNCTIONS
 void	ft_update(t_player *p);
-void	ft_render_background(t_data *data, int color);
-int		ft_render_rect(t_img *img, t_rect rect);
-int		ft_render_line(t_img *img, t_point a, t_point b);
 int		ft_refresh_img(t_data *data);
 void	ft_mlx_hook(t_data *data);
 int		ft_map_has_wall_at(t_data *data, int x, int y);

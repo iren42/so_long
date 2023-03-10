@@ -40,16 +40,16 @@ int	ft_create_mlx_win_and_img(t_data *d, t_map *map)
 {
 	d->mlx_ptr = 0;
 	d->win_ptr = 0;
-	d->mlx_ptr = mlx_init();
 	d->img.mlx_img = 0;
 	d->img.wid = SCR_WID;
 	d->img.hei = SCR_HEI;
+	d->tex = 0;
+	d->mlx_ptr = mlx_init();
 	if (d->mlx_ptr == NULL)
 	{
 		ft_putstr_fd("Error\nCould not init mlx.\n", 2);
 		return (FAILURE);
 	}
-	d->tex = 0;
 	if (ft_import_xpm_file(d, map) == FAILURE)
 	{
 		ft_putstr_fd("Error\nCould not import xpm file.\n", 2);
@@ -65,41 +65,18 @@ int	ft_create_mlx_win_and_img(t_data *d, t_map *map)
 	return (create_new_img(d));
 }
 
-static void	ft_clear_all(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	if (data->img.mlx_img)
-		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
-	while (++i < NB_TEX && data->tex != 0)
-	{
-		if (data->tex[i].mlx_img)
-		{
-			mlx_destroy_image(data->mlx_ptr, data->tex[i].mlx_img);
-			data->tex[i].mlx_img = 0;
-		}
-	}
-	free(data->tex);
-	if (data->mlx_ptr != 0)
-	{
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-	}
-}
-
 int	ft_mlx(t_map *map)
 {
 	t_data	data;
 
 	data.img.tmap = map;
 	data.img.d = &data;
-	if (ft_create_mlx_win_and_img(&data, map) != -1)
+	if (ft_create_mlx_win_and_img(&data, map) == SUCCESS)
 	{
 		ft_setup_player(&data);
 		ft_mlx_hook(&data);
 		mlx_loop(data.mlx_ptr);
 	}
-	ft_clear_all(&data);
+	ft_clear_mlx(&data);
 	return (SUCCESS);
 }

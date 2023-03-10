@@ -36,6 +36,9 @@ int	ft_init_tmap(t_map *tmap)
 
 	i = -1;
 	tmap->error = 1;
+	tmap->map = 0;
+	tmap->rows = 0;
+	tmap->cols = 0;
 	tmap->texture = malloc(sizeof(char *) * 5);
 	if (tmap->texture != NULL)
 	{
@@ -47,8 +50,5 @@ int	ft_init_tmap(t_map *tmap)
 		tmap->texture[map_exit] = ft_strdup("./texture/door.xpm");
 		tmap->texture[player] = ft_strdup("./texture/sans_player.xpm");
 	}
-	tmap->map = 0;
-	tmap->rows = 0;
-	tmap->cols = 0;
 	return (test_allocs(tmap));
 }
