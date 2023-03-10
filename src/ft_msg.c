@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	ft_msg(int nb, char *s, int fd)
+int	ft_msg(int nb, char *s, int fd, int ret_value)
 {
 	if (fd == 2)
 		ft_putstr_fd("Error\n", 2);
@@ -22,4 +22,6 @@ void	ft_msg(int nb, char *s, int fd)
 		ft_putstr_fd(" ", fd);
 	}
 	ft_putstr_fd(s, fd);
+	ft_putstr_fd("\n", fd);
+	return (ret_value);
 }

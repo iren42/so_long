@@ -143,7 +143,7 @@ void	ft_free_previously_malloced(char **tab, int i);
 char	**ft_mirror(char **map, int rows, int cols);
 int		ft_set_tmap(int fd, t_map *map);
 int		ft_is_map_closed(t_map *map, int px, int py);
-void	ft_msg(int nb, char *s, int fd);
+int		ft_msg(int nb, char *s, int fd, int ret_value);
 void	ft_clear_mlx(t_data *d);
 
 //////// MLX 2D MAP FUNCTIONS

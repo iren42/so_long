@@ -30,9 +30,9 @@ int	ft_map_has_wall_at(t_data *data, int x, int y)
 			data->win_ptr = NULL;
 		}
 		else
-			ft_msg(data->img.tmap->comp.nb_collec, "collectibles left.", 1);
+			ft_msg(data->img.tmap->comp.nb_collec, "collectibles left.", 1, 0);
 	}
 	if (data->img.tmap->map[y][x] != '1')
-		ft_msg(++(data->img.player.nb_mvmt), "movements in total\n", 1);
+		ft_msg(++(data->img.player.nb_mvmt), "movements in total", 1, 0);
 	return (data->img.tmap->map[y][x] == '1');
 }
