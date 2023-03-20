@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 23:08:32 by iren              #+#    #+#             */
-/*   Updated: 2023/02/25 18:16:58 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/20 21:43:22 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,57 @@
 
 static int	ft_setup_player(t_data *d)
 {
-	d->img.player.x = d->img.tmap->px;
-	d->img.player.y = d->img.tmap->py;
-	d->img.player.walk_x = 0;
-	d->img.player.walk_y = 0;
-	d->img.player.nb_mvmt = 0;
-	return (SUCCESS);
-}
-
-int	create_new_img(t_data *data)
-{
-	data->img.mlx_img = mlx_new_image(data->mlx_ptr, data->img.wid,
-			data->img.hei);
-	if (data->img.mlx_img == NULL)
+	if (d)
 	{
-		ft_putstr_fd("Error\nCould not create a new image.\n", 2);
-		return (FAILURE);
+		d->img.player.x = d->img.tmap->px;
+		d->img.player.y = d->img.tmap->py;
+		d->img.player.walk_x = 0;
+		d->img.player.walk_y = 0;
+		d->img.player.nb_mvmt = 0;
+		return (SUCCESS);
 	}
-	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp,
-			&data->img.line_len, &data->img.endian);
-	return (SUCCESS);
+	return (FAILURE);
 }
 
-int	ft_create_mlx_win_and_img(t_data *d, t_map *map)
+static int	create_new_img(t_data *data)
 {
-	d->mlx_ptr = 0;
-	d->win_ptr = 0;
-	d->img.mlx_img = 0;
-	d->img.wid = SCR_WID;
-	d->img.hei = SCR_HEI;
-	d->tex = 0;
-	d->mlx_ptr = mlx_init();
-	if (d->mlx_ptr == NULL)
+	if (data)
+	{
+		data->img.mlx_img = mlx_new_image(data->mlx_ptr, data->img.wid,
+				data->img.hei);
+		if (data->img.mlx_img == NULL)
+		{
+			ft_putstr_fd("Error\nCould not create a new image.\n", 2);
+			return (FAILURE);
+		}
+		data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp,
+				&data->img.line_len, &data->img.endian);
+		return (SUCCESS);
+	}
+	return (FAILURE);
+}
+
+static int	init_tdata(t_data *d)
+{
+	if (d)
+	{
+		d->mlx_ptr = 0;
+		d->win_ptr = 0;
+		d->img.mlx_img = 0;
+		d->img.wid = SCR_WID;
+		d->img.hei = SCR_HEI;
+		d->tex = 0;
+		d->mlx_ptr = mlx_init();
+		if (d->mlx_ptr == 0)
+			return (FAILURE);
+		return (SUCCESS);
+	}
+	return (FAILURE);
+}
+
+static int	ft_create_mlx_win_and_img(t_data *d, t_map *map)
+{
+	if (init_tdata(d) == FAILURE)
 	{
 		ft_putstr_fd("Error\nCould not init mlx.\n", 2);
 		return (FAILURE);

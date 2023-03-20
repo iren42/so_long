@@ -17,6 +17,8 @@ static int	ft_walls_are_closed(t_map *tmap, char **map)
 	int	i;
 
 	i = 0;
+	if (!tmap || !map)
+		return (1);
 	while (i < tmap->cols)
 	{
 		if (map[0][i] != '1' || map[tmap->rows - 1][i] != '1')

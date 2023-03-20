@@ -6,7 +6,7 @@
 /*   By: iren <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:01:04 by iren              #+#    #+#             */
-/*   Updated: 2023/03/10 20:43:08 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/20 21:55:37 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	init(int *i, int *wid, int *hei, t_data *data)
 	*i = -1;
 	*wid = 0;
 	*hei = 0;
+	if (!data)
+		return (FAILURE);
 	data->tex = malloc(sizeof(t_img) * NB_TEX);
 	if (data->tex == NULL)
 		return (FAILURE);
@@ -35,7 +37,7 @@ int	ft_import_xpm_file(t_data *data, t_map *map)
 	int		i;
 	char	*filename;
 
-	if (init(&i, &wid, &hei, data) == SUCCESS)
+	if ((init(&i, &wid, &hei, data) == SUCCESS) && data && map)
 	{
 		while (++i < NB_TEX)
 		{

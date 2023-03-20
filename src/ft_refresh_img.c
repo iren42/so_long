@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 23:10:16 by iren              #+#    #+#             */
-/*   Updated: 2023/02/26 06:02:59 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/20 21:51:13 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,13 @@ static void	render_map(t_img *img)
 
 int	ft_refresh_img(t_data *d)
 {
-	render_map(&d->img);
-	render_player(&d->img, d->img.player, d->tex[player]);
-	if (d->img.mlx_img != NULL && d->win_ptr != NULL && d->mlx_ptr != NULL)
-		mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, d->img.mlx_img, 0, 0);
+	if (d)
+	{
+		render_map(&d->img);
+		render_player(&d->img, d->img.player, d->tex[player]);
+		if (d->img.mlx_img != NULL && d->win_ptr != NULL && d->mlx_ptr != NULL)
+			mlx_put_image_to_window(d->mlx_ptr, d->win_ptr,
+				d->img.mlx_img, 0, 0);
+	}
 	return (0);
 }
