@@ -12,6 +12,18 @@
 
 #include "so_long.h"
 
+void	ft_free_tex(char **str)
+{
+	int	i;
+
+	i = NB_TEX;
+	while (--i >= 0)
+	{
+		free(str[i]);
+	}
+	free(str);
+}
+
 static int	test_allocs(t_map *tmap)
 {
 	int	i;
@@ -21,7 +33,7 @@ static int	test_allocs(t_map *tmap)
 	{
 		if (tmap->texture[i] == NULL)
 		{
-			ft_free_previously_malloced(tmap->texture, i - 1);
+			ft_free_tex(tmap->texture);
 			return (FAILURE);
 		}
 		else
@@ -39,7 +51,7 @@ int	ft_init_tmap(t_map *tmap)
 	tmap->map = 0;
 	tmap->rows = 0;
 	tmap->cols = 0;
-	tmap->texture = malloc(sizeof(char *) * 5);
+	tmap->texture = malloc(sizeof(char *) * NB_TEX);
 	if (tmap->texture != NULL)
 	{
 		while (++i < NB_TEX)

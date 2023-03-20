@@ -17,7 +17,10 @@ int	ft_get_pix_color(t_img *img, int x, int y)
 	int	a;
 
 	a = 0x0;
-	if (x >= 0 && x < img->wid && y >= 0 && y <= img->hei)
-		a = *(int *)(img->addr + (x + y * img->wid) * img->bpp / 8);
+	if (img != 0)
+	{
+		if (x >= 0 && x < img->wid && y >= 0 && y <= img->hei && img->addr != 0)
+			a = *(int *)(img->addr + (x + y * img->wid) * img->bpp / 8);
+	}
 	return (a);
 }

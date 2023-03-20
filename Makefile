@@ -75,22 +75,15 @@ RM		= rm -f
 all		: $(NAME)
 
 %.o		: %.c $(HEADER)
-		$(CC) $(CFLAGS) -Iinclude -Imlx_linux -g -c $< -o $@
+		$(CC) $(CFLAGS) -Iinclude -Imlx_linux -c $< -o $@
 
 $(NAME) : $(OBJS) $(HEADER) $(MLX) $(LIBFT)
 		make -C $(MLX)
 		make -C $(LIBFT)
 		$(CC) $(CFLAGS) -o $@ $(OBJS) -Llibft -lft -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm
 
-norm	:
-		norminette $(SRCS)
-		norminette $(HEADER)
-		norminette $(HEADER1)
-		make norm -C $(LIBFT)
-
 clean	:
 		$(RM) $(OBJS)
-		$(RM) $(OBJS:.o=.d)
 		make clean -C $(LIBFT)
 		make clean -C $(MLX)
 

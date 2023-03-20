@@ -28,22 +28,6 @@ static int	init(int *i, int *wid, int *hei, t_data *data)
 	return (SUCCESS);
 }
 
-static int	free_previous(t_data *data, int i)
-{
-	if (data != 0)
-	{
-		while (i >= 0)
-		{
-			mlx_destroy_image(data->mlx_ptr, data->tex[i].mlx_img);
-			data->tex[i].mlx_img = 0;
-			i--;
-		}
-		free(data->tex);
-		data->tex = 0;
-	}
-	return (FAILURE);
-}
-
 int	ft_import_xpm_file(t_data *data, t_map *map)
 {
 	int		wid;
@@ -59,10 +43,12 @@ int	ft_import_xpm_file(t_data *data, t_map *map)
 			data->tex[i].mlx_img = mlx_xpm_file_to_image(data->mlx_ptr,
 					filename, &wid, &hei);
 			if (data->tex[i].mlx_img == NULL)
-				return (free_previous(data, i));
+				return (FAILURE);
 			data->tex[i].addr = mlx_get_data_addr(data->tex[i].mlx_img,
 					&data->tex[i].bpp,
 					&data->tex[i].line_len, &data->tex[i].endian);
+			if (data->tex[i].addr == 0)
+				return (FAILURE);
 			data->tex[i].hei = hei;
 			data->tex[i].wid = wid;
 		}

@@ -19,16 +19,11 @@ void	ft_free_tmap(t_map *tmap)
 	i = -1;
 	if (tmap != NULL)
 	{
-		if (tmap->texture[wall] != 0)
-			free(tmap->texture[wall]);
-		if (tmap->texture[ground] != 0)
-			free(tmap->texture[ground]);
-		if (tmap->texture[collec] != 0)
-			free(tmap->texture[collec]);
-		if (tmap->texture[map_exit] != 0)
-			free(tmap->texture[map_exit]);
-		if (tmap->texture[player] != 0)
-			free(tmap->texture[player]);
+		free(tmap->texture[wall]);
+		free(tmap->texture[ground]);
+		free(tmap->texture[collec]);
+		free(tmap->texture[map_exit]);
+		free(tmap->texture[player]);
 		free(tmap->texture);
 		if (tmap->map != 0)
 		{
