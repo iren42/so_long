@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 19:36:21 by iren              #+#    #+#             */
-/*   Updated: 2021/08/13 19:36:24 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/21 17:04:09 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**ft_copy_mapchar(char **map, int nb_rows, int nb_cols)
 	int		j;
 
 	res = malloc(sizeof(char *) * (nb_rows + 1));
-	if (res == NULL)
+	if (res == NULL || map == 0 || nb_rows < 3 || nb_cols < 3)
 		return (0);
 	i = 0;
 	while (i < nb_rows)

@@ -6,7 +6,7 @@
 /*   By: iren <iren@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 19:38:30 by iren              #+#    #+#             */
-/*   Updated: 2021/08/13 19:38:40 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/21 17:05:35 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ void	ft_free_mapchar(char **map)
 	int	i;
 
 	i = 0;
-	while (map[i] != 0)
+	if (map)
 	{
-		free(map[i++]);
+		while (map[i] != 0)
+		{
+			free(map[i]);
+			map[i++] = 0;
+		}
+		free(map);
+		map = 0;
 	}
-	free(map);
 }

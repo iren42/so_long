@@ -6,7 +6,7 @@
 /*   By: iren <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:59:39 by iren              #+#    #+#             */
-/*   Updated: 2023/02/25 17:59:40 by iren             ###   ########.fr       */
+/*   Updated: 2023/03/21 17:13:45 by iren             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 static void	add_comp(t_map *tmap, char c)
 {
-	if (ft_is_player_char(c))
-		tmap->comp.nb_starting_points++;
-	else if (c == 'E')
-		tmap->comp.nb_exits++;
-	else if (c == 'C')
-		tmap->comp.nb_collec++;
+	if (tmap)
+	{
+		if (ft_is_player_char(c))
+			tmap->comp.nb_starting_points++;
+		else if (c == 'E')
+			tmap->comp.nb_exits++;
+		else if (c == 'C')
+			tmap->comp.nb_collec++;
+	}
 }
 
 static int	ft_inspect_map(t_map *tmap)
@@ -27,6 +30,8 @@ static int	ft_inspect_map(t_map *tmap)
 	int	i;
 	int	j;
 
+	if (!tmap)
+		return (0);
 	if (tmap->map != 0)
 	{
 		i = -1;
@@ -50,15 +55,20 @@ static int	ft_inspect_map(t_map *tmap)
 
 static void	init_comp(t_map_comp *c)
 {
-	c->nb_starting_points = 0;
-	c->nb_collec = 0;
-	c->nb_exits = 0;
-	c->player_x = -1;
-	c->player_y = -1;
+	if (c)
+	{
+		c->nb_starting_points = 0;
+		c->nb_collec = 0;
+		c->nb_exits = 0;
+		c->player_x = -1;
+		c->player_y = -1;
+	}
 }
 
 int	ft_map_has_necessary_components(t_map *tmap)
 {
+	if (!tmap)
+		return (0);
 	init_comp(&tmap->comp);
 	if (ft_inspect_map(tmap) != 1)
 		return (0);
