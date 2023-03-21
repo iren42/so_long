@@ -22,8 +22,10 @@ static void	ft_free_tex(char **str)
 		while (--i >= 0)
 		{
 			free(str[i]);
+			str[i] = 0;
 		}
 		free(str);
+		str = 0;
 	}
 }
 

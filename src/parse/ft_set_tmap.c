@@ -80,7 +80,10 @@ static void	loop(t_var_set_tmap *t)
 		t->tmap->rows++;
 	}
 	else
+	{
 		free(t->line);
+		t->line = 0;
+	}
 }
 
 int	ft_set_tmap(int fd, t_map *tmap)
@@ -95,7 +98,10 @@ int	ft_set_tmap(int fd, t_map *tmap)
 	if (t.ret > 0)
 		loop(&t);
 	else
+	{
 		free(t.line);
+		t.line = 0;
+	}
 	if (convert_maplst_to_char(t.lst, tmap) == FAILURE)
 		ft_putstr_fd("Error\nNo tmap. Error found in map content.\n", 2);
 	ft_lstclear(&t.lst, &free);

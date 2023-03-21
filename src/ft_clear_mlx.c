@@ -28,6 +28,7 @@ static void	clear_tex(t_data *data)
 			}
 		}
 		free(data->tex);
+		data->tex = 0;
 	}
 }
 
@@ -40,5 +41,6 @@ void	ft_clear_mlx(t_data *data)
 	{
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
+		data->mlx_ptr = 0;
 	}
 }
