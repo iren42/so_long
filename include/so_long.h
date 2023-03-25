@@ -43,13 +43,8 @@ typedef struct s_var_spread_b
 	int	rows;
 	int	cols;
 	int	exit_can_be_reached;
+	int	nb_coll;
 }	t_var_spread_b;
-
-typedef struct s_point
-{
-	int	x;
-	int	y;
-}	t_point;
 
 typedef struct s_rect
 {
