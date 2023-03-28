@@ -12,6 +12,11 @@
 
 #include "so_long.h"
 
+/*
+	line_len is the amount of bytes taken by one row of our image.
+	It is equivalent to img->wid * (img->bpp / 8)
+*/
+
 void	ft_img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
